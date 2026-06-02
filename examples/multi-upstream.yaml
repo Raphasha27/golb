@@ -1,0 +1,20 @@
+# Multi-upstream load balancer config
+server:
+  port: 8080
+upstreams:
+  - name: api
+    strategy: round-robin
+    targets:
+      - url: http://api1:3000
+      - url: http://api2:3000
+    health_check:
+      path: /health
+      interval: 10s
+  - name: web
+    strategy: least-connections
+    targets:
+      - url: http://web1:4000
+      - url: http://web2:4000
+    health_check:
+      path: /healthz
+      interval: 5s
